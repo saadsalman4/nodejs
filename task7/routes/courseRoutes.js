@@ -3,6 +3,7 @@ const router = express.Router();
 const courseController = require("../controllers/courseController");
 
 router.get("/courses", courseController.get);
+router.get("/courses/:id", courseController.getCourseById);
 router.post("/courses", courseController.post);
 router.patch("/courses/:id", courseController.patch);
 router.delete("/courses/:id", courseController.delete);

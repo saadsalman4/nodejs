@@ -1,5 +1,17 @@
 const teacherModel = require("../models/teachers.js");
 
+exports.getTeacherById = async (req, res) => {
+  try {
+    const teacher = await teacherModel.findById(req.params.id);
+    if (!teacher) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(teacher);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 exports.get = async (req, res) => {
   const teachers = await teacherModel.find({});
 
