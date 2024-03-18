@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>register</title>
+  </head>
+  <body>
+    <h1>registration</h1>
+    <form>
+      <label for="username">username</label>
+      <input type="text" name="username" required />
+      <div class="username_error"></div>
+
+      <label for="password">password</label>
+      <input type="password" name="password" required />
+      <div class="password_error"></div>
+
+      <label for="role">role <br /></label>
+      <input type="radio" id="admin" name="role" value="admin" />
+        <label for="admin">admin</label><br />
+      <input type="radio" id="teacher" name="role" value="teacher" />
+        <label for="teacher">teacher</label><br />
+      <input type="radio" id="student" name="role" value="student" />
+        <label for="student">student</label><br />
+      <div class="password_error"></div>
+
+      <button>register</button>
+    </form>
+
+    <script>
+      const form = document.querySelector("form");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const username = form.username.value;
+        const password = form.password.value;
+        const role = form.role.value;
+        console.log(role);
+
+        try {
+          const res = await fetch("/register", {
+            method: "POST",
+            body: JSON.stringify({ username, password, role }),
+            headers: { "Content-Type": "application/json" },
+          });
+          const data = await res.json();
+          console.log(data.user);
+          if (data.user) {
+            location.assign("/");
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      });
+    </script>
+  </body>
+</html>
