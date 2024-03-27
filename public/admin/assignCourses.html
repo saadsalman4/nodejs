@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Assign Courses</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+
+    <script>
+    // Fetch entry names from the server and populate the dropdowns
+    // fetch('/admin/showCourses')
+    //   .then(response => response.json())
+    //   .then(names => {
+    //     const dropdowns = document.querySelectorAll('select');
+    //     dropdowns.forEach(dropdown => {
+    //       names.forEach(name => {
+    //         const option = document.createElement('option');
+    //         option.value = name;
+    //         option.textContent = name;
+    //         dropdown.appendChild(option);
+    //       });
+    //     });
+    //   })
+    //   .catch(err => console.error('Error fetching entry names:', err));
+
+      </script>
+
+      <script>
+      fetch('/admin/showTeachers')
+      .then(response => response.json())
+      .then(names => {
+        const dropdown = document.getElementById('entryDropdown0');
+        names.forEach(name => {
+          const option = document.createElement('option');
+          option.value = name;
+          option.textContent = name;
+          dropdown.appendChild(option);
+        });
+      })
+      .catch(err => console.error('Error fetching entry names:', err));
+  </script>
+
+  <script>
+      fetch('/admin/showCourses')
+      .then(response => response.json())
+      .then(names => {
+        const dropdown = document.getElementById('entryDropdown1');
+        names.forEach(name => {
+          const option = document.createElement('option');
+          option.value = name;
+          option.textContent = name;
+          dropdown.appendChild(option);
+        });
+      })
+      .catch(err => console.error('Error fetching entry names:', err));
+  </script>
+  <script>
+      fetch('/admin/showCourses')
+      .then(response => response.json())
+      .then(names => {
+        const dropdown = document.getElementById('entryDropdown2');
+        names.forEach(name => {
+          const option = document.createElement('option');
+          option.value = name;
+          option.textContent = name;
+          dropdown.appendChild(option);
+        });
+      })
+      .catch(err => console.error('Error fetching entry names:', err));
+  </script>
+
+<script>
+      fetch('/admin/showCourses')
+      .then(response => response.json())
+      .then(names => {
+        const dropdown = document.getElementById('entryDropdown3');
+        names.forEach(name => {
+          const option = document.createElement('option');
+          option.value = name;
+          option.textContent = name;
+          dropdown.appendChild(option);
+        });
+      })
+      .catch(err => console.error('Error fetching entry names:', err));
+  </script>
+
+
+
+    <div class="container mt-3">
+        <h1>Teacher Courses Assign</h1>
+      <div class="mb-3">
+    <form>
+      <select required id="entryDropdown0" name="username">
+      <option disabled selected>Select a Teacher</option>
+    </select>
+    <br>
+
+      <select id="entryDropdown1" name="course1">
+      <option disabled selected>Select a course</option>
+    </select>
+
+    <select id="entryDropdown2" name="course2">
+      <option disabled selected>Select a course</option>
+    </select>
+
+    <select id="entryDropdown3" name="course3">
+      <option disabled selected>Select a course</option>
+    </select>
+
+      
+
+      <button>Assign Courses</button>
+    </form>
+
+      <script>
+      const form = document.querySelector("form");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const username = form.username.value;
+        const course1 = form.course1.value;
+        const course2 = form.course2.value;
+        const course3 = form.course3.value;
+
+        if( course1 == course2 || course1 == course3 || course2 == course3 ){
+            alert('choose different courses!!!');
+            return;
+        }
+
+        try {
+          const res = await fetch("/admin/assignCourses", {
+            method: "POST",
+            body: JSON.stringify({ username, course1, course2, course3 }),
+            headers: { "Content-Type": "application/json" },
+          });
+          const data = await res.json();
+          console.log(data.teacher);
+          if (data.teacher) {
+            location.assign("/admin/panel");
+          }
+        } catch (e) {
+        }
+      });
+    </script>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
