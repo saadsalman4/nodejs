@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const path = require("path");
 const adminModel = require("../models/Admin");
 const teacherModel = require("../models/Teacher");
 const studentModel = require("../models/Student");
@@ -7,6 +8,39 @@ const courseModel = require("../models/Course");
 
 const createToken = (id, role) => {
   return jwt.sign({ id, role }, "saadsalman", { expiresIn: 259200000 });
+};
+
+exports.Panel = async (req, res) => {
+  const filePath = path.join(__dirname, "../public/admin/panel.html");
+  res.sendFile(filePath);
+};
+
+exports.addTeacher_get = async (req, res) => {
+  const filePath = path.join(__dirname, "../public/admin/addTeacher.html");
+  res.sendFile(filePath);
+};
+
+exports.addStudent_get = async (req, res) => {
+  const filePath = path.join(__dirname, "../public/admin/addStudent.html");
+  res.sendFile(filePath);
+};
+
+exports.addCourse_get = async (req, res) => {
+  const filePath = path.join(__dirname, "../public/admin/addCourse.html");
+  res.sendFile(filePath);
+};
+
+exports.assignCourses_get = async (req, res) => {
+  const filePath = path.join(__dirname, "../public/admin/assignCourses.html");
+  res.sendFile(filePath);
+};
+
+exports.assignCoursesToStudent_get = async (req, res) => {
+  const filePath = path.join(
+    __dirname,
+    "../public/admin/assignCoursesToStudent.html"
+  );
+  res.sendFile(filePath);
 };
 
 exports.Login = async (req, res) => {
@@ -151,17 +185,31 @@ exports.assignCourses = async (req, res) => {
       return res.status(400).send("Courses must be unique");
     }
 
+    const teachers = await teacherModel.findOne({ username: username });
+
     const coursesToAssign = [];
     if (course1) {
-      const course = await courseModel.findOne({ name: course1 });
+      const course = await courseModel.findOneAndUpdate(
+        { name: course1 },
+        { $addToSet: { teacher: teachers._id } }, // Add the teacher to the course's teachers array
+        { new: true } // Return the updated document
+      );
       if (course) coursesToAssign.push(course._id);
     }
     if (course2) {
-      const course = await courseModel.findOne({ name: course2 });
+      const course = await courseModel.findOneAndUpdate(
+        { name: course2 },
+        { $addToSet: { teacher: teachers._id } }, // Add the teacher to the course's teachers array
+        { new: true } // Return the updated document
+      );
       if (course) coursesToAssign.push(course._id);
     }
     if (course3) {
-      const course = await courseModel.findOne({ name: course3 });
+      const course = await courseModel.findOneAndUpdate(
+        { name: course3 },
+        { $addToSet: { teacher: teachers._id } }, // Add the teacher to the course's teachers array
+        { new: true } // Return the updated document
+      );
       if (course) coursesToAssign.push(course._id);
     }
 
@@ -202,9 +250,16 @@ exports.assignCoursesToStudent = async (req, res) => {
       { $set: { course: courses } },
       { new: true } // Return the updated document
     );
+
+    const course_update = await courseModel.findOneAndUpdate(
+      { name: course },
+      { $addToSet: { students: student } },
+      { new: true }
+    );
+
     res.status(201).json({ message: "Course assigned successfully", student });
   } catch (err) {
     console.log(err);
-    res.status(400).send("not created");
+    res.status(400).send("Not created");
   }
 };

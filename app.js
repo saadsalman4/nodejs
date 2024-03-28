@@ -9,7 +9,6 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(routes);
 app.use(express.json());
-app.use(express.static("public"));
 
 mongoose.connect("mongodb+srv://saad:12345@cluster0.da2p9nd.mongodb.net/task9");
 

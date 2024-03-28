@@ -11,10 +11,12 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: [true, "enter a code!"],
   },
-  teacher: {
-    type: Schema.Types.ObjectId,
-    ref: "Teacher",
-  },
+  teacher: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Teacher",
+    },
+  ],
   students: [
     {
       type: Schema.Types.ObjectId,
