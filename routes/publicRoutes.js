@@ -23,6 +23,11 @@ router.get("/admin/login", async (req, res) => {
   res.sendFile(filePath);
 });
 
+router.get("/admin/register", async (req, res) => {
+  const filePath = path.join(__dirname, "../public/admin/register.html");
+  res.sendFile(filePath);
+});
+
 router.get("/teacher/login", async (req, res) => {
   const filePath = path.join(__dirname, "../public/teacher/login.html");
   res.sendFile(filePath);

@@ -7,7 +7,12 @@ const studentModel = require("../models/Student");
 const courseModel = require("../models/Course");
 
 const createToken = (id, role) => {
-  return jwt.sign({ id, role }, "saadsalman", { expiresIn: 259200000 });
+  return jwt.sign({ id, role }, "saadsalman_admin", { expiresIn: 259200000 });
+};
+
+exports.logout = async (req, res) => {
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.redirect("/");
 };
 
 exports.Panel = async (req, res) => {

@@ -45,7 +45,7 @@
           const data = await res.json();
           console.log(data.student);
           if (data.student) {
-            location.assign("/");
+            location.assign("/student/panel");
           }
         } catch (e) {
         }
