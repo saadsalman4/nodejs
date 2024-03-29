@@ -9,7 +9,7 @@ const adminAuth = (req, res, next) => {
         console.log(err);
         res.redirect("/admin/login");
       } else {
-        console.log(decodedToken);
+        // console.log(decodedToken);
         req.user = decodedToken;
         next();
       }
